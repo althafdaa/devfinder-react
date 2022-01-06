@@ -1,9 +1,12 @@
 import React from 'react';
+import Search from '../components/users/Search';
+import UserResult from '../components/users/UserResult';
 
 const Home = () => {
   return (
     <div className='p-4'>
-      <h1 className='text-6xl'>hai</h1>
+      <Search />
+      <UserResult />
     </div>
   );
 };
