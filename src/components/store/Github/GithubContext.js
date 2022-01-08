@@ -11,17 +11,23 @@ export const GithubProvider = ({ children }) => {
 
   const [state, dispatch] = useReducer(githubReducer, reducerState);
 
-  const fetchUser = async () => {
+  const fetchSearch = async (input) => {
     setLoading();
-    const res = await fetch(`${process.env.REACT_APP_API_URL}users`, {
-      headers: {
-        Authorization: `token ${process.env.REACT_APP_TOKENAPI}`,
-      },
-    });
-    const resJSON = await res.json();
+
+    const res = await fetch(
+      `${process.env.REACT_APP_API_URL}search/users?q=${input}`,
+      {
+        headers: {
+          Authorization: `token ${process.env.REACT_APP_TOKENAPI}`,
+        },
+      }
+    );
+
+    const { items } = await res.json();
+
     dispatch({
       type: 'GET_USERS',
-      payload: resJSON,
+      payload: items,
     });
   };
 
@@ -30,12 +36,19 @@ export const GithubProvider = ({ children }) => {
       type: 'SET_LOADING',
     });
 
+  const clearButton = () => {
+    dispatch({
+      type: 'CLEAR',
+    });
+  };
+
   return (
     <GithubContext.Provider
       value={{
         users: state.users,
         isLoading: state.isLoading,
-        fetchUser: fetchUser,
+        fetchSearch,
+        clearButton,
       }}
     >
       {children}

@@ -1,39 +1,40 @@
 import React, { useState, useContext } from 'react';
-import { FaSearch, FaTimes, FaUserTimes } from 'react-icons/fa';
+import { FaSearch, FaTimes } from 'react-icons/fa';
 import GithubContext from '../store/Github/GithubContext';
+import AlertContext from '../store/Alert/AlertContext';
+import Alert from '../Layout/Alert';
 
 const Search = () => {
   const [input, setInput] = useState('');
-  const [isValid, setIsValid] = useState(false);
 
-  const { users } = useContext(GithubContext);
+  const { users, fetchSearch, clearButton } = useContext(GithubContext);
+
+  const { setAlert } = useContext(AlertContext);
 
   const inputHandler = (data) => {
-    console.log(data.target.value);
     setInput(data.target.value);
   };
 
   const submitHandler = (e) => {
     e.preventDefault();
+
     if (input === '') {
-      setIsValid(true);
+      setAlert('SHEESH', 'Error');
     } else {
-      setIsValid(false);
+      fetchSearch(input);
+
       setInput('');
     }
+  };
+
+  const clearHandler = () => {
+    clearButton();
   };
 
   return (
     <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-2 mb-8 gap-8'>
       <form onSubmit={submitHandler}>
-        {isValid && (
-          <div className='alert alert-error mb-4'>
-            <div className='flex-1'>
-              <FaUserTimes className='mr-4' size={24} />
-              <label>Please enter something</label>
-            </div>
-          </div>
-        )}
+        <Alert />
         <div className='form-control flex-row relative'>
           <input
             value={input}
@@ -52,7 +53,7 @@ const Search = () => {
       </form>
       <div>
         {users.length > 0 && (
-          <button className='btn btn-square btn-lg'>
+          <button onClick={clearHandler} className='btn btn-square btn-lg'>
             <FaTimes />
           </button>
         )}

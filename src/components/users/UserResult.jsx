@@ -7,10 +7,6 @@ import GithubContext from '../store/Github/GithubContext';
 const UserResult = () => {
   const { isLoading, users } = useContext(GithubContext);
 
-  // useEffect(() => {
-  //   fetchUser();
-  // }, []);
-
   if (isLoading) {
     return <LoadingSpin />;
   } else {
