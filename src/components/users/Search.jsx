@@ -19,7 +19,7 @@ const Search = () => {
     e.preventDefault();
 
     if (input === '') {
-      setAlert('SHEESH', 'Error');
+      setAlert('Please enter something!', 'Error');
     } else {
       fetchSearch(input);
 
