@@ -1,41 +1,18 @@
-import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import React from 'react';
 import { FaEye, FaInfo, FaLink, FaStar, FaUtensils } from 'react-icons/fa';
 
-const RepoList = () => {
-  const [repos, setRepos] = useState([]);
-
-  const params = useParams();
-  useEffect(() => {
-    const fetchRandom = async () => {
-      const res = await fetch(
-        `https://api.github.com/users/${params.login}/repos`
-      );
-
-      const resJSON = await res.json();
-
-      const sliced = await resJSON.slice(0, 5);
-
-      setRepos(sliced);
-    };
-    fetchRandom();
-  }, []);
-
+const RepoList = ({ repos }) => {
+  const sliced = repos.slice(0, 7);
   return (
     <div className='rounded-lg shadow-lg card-bg-base-100'>
       <div className='card-body'>
         <h2 className='text-3xl my-4 font-bold card-title'>Latest Repos</h2>
-        {repos.map((repo) => (
-          <>
+        {sliced.map((repo) => (
+          <div key={repo.id}>
             <div className='mb-2 rounded-md card bg-gray-800 hover:bg-gray-900'>
               <div className='card-body'>
                 <h3 className='mb-2 text-xl font-semibold'>
-                  <a
-                    key={repo.id}
-                    href={repo.html_url}
-                    rel='noreferrer'
-                    target='_blank'
-                  >
+                  <a href={repo.html_url} rel='noreferrer' target='_blank'>
                     <FaLink className='inline mr-1' />
                     {repo.name}
                   </a>
@@ -57,7 +34,7 @@ const RepoList = () => {
                 </div>
               </div>
             </div>
-          </>
+          </div>
         ))}
       </div>
     </div>

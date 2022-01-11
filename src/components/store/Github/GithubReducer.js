@@ -7,17 +7,11 @@ const githubReducer = (state, action) => {
         isLoading: false,
       };
     }
-    case 'GET_REPOS': {
-      return {
-        ...state,
-        repos: action.payload,
-      };
-    }
     case 'PROFILE_PAGE_AND_REPOS': {
       return {
         ...state,
-        singleuser: action.userpayload,
-        repos: action.repospayload,
+        singleuser: action.payload.user,
+        repos: action.payload.repos,
         isLoading: false,
       };
     }

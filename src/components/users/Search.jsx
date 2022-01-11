@@ -3,11 +3,12 @@ import { FaSearch, FaTimes } from 'react-icons/fa';
 import GithubContext from '../store/Github/GithubContext';
 import AlertContext from '../store/Alert/AlertContext';
 import Alert from '../Layout/Alert';
+import { fetchSearch } from '../store/Github/GtihubActions';
 
 const Search = () => {
   const [input, setInput] = useState('');
 
-  const { users, fetchSearch, clearButton } = useContext(GithubContext);
+  const { users, dispatch } = useContext(GithubContext);
 
   const { setAlert } = useContext(AlertContext);
 
@@ -15,20 +16,30 @@ const Search = () => {
     setInput(data.target.value);
   };
 
-  const submitHandler = (e) => {
+  const submitHandler = async (e) => {
     e.preventDefault();
 
     if (input === '') {
       setAlert('Please enter something!', 'Error');
     } else {
-      fetchSearch(input);
+      dispatch({
+        type: 'SET_LOADING',
+      });
+      const users = await fetchSearch(input);
+
+      dispatch({
+        type: 'GET_USERS',
+        payload: users,
+      });
 
       setInput('');
     }
   };
 
   const clearHandler = () => {
-    clearButton();
+    dispatch({
+      type: 'CLEAR',
+    });
   };
 
   return (

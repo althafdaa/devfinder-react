@@ -9,11 +9,10 @@ import {
   FaUsers,
 } from 'react-icons/fa';
 import RepoList from './repos/RepoList';
+import { fetchUserAndRepo } from '../components/store/Github/GtihubActions';
 
 const UserPage = () => {
-  const { singleuser, repos, isLoading, fetchUser } = useContext(GithubContext);
-
-  console.log(repos);
+  const { singleuser, repos, isLoading, dispatch } = useContext(GithubContext);
 
   const {
     name,
@@ -35,9 +34,20 @@ const UserPage = () => {
   const param = useParams();
 
   useEffect(() => {
-    // fetchRepos(param.login);
-    fetchUser(param.login);
-  }, []);
+    dispatch({
+      type: 'SET_LOADING',
+    });
+    const fetchData = async () => {
+      const fetch = await fetchUserAndRepo(param.login);
+
+      dispatch({
+        type: 'PROFILE_PAGE_AND_REPOS',
+        payload: fetch,
+      });
+    };
+
+    fetchData();
+  }, [dispatch, param.login]);
 
   if (isLoading) {
     return <LoadingSpin />;
