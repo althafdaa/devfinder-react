@@ -2,6 +2,8 @@
 
 An upgrade from my previous project [github-finder](https://github.com/althafdaa/portofolio/tree/main/devfinder-github-api) from Vanulla Javascrupt to React. It's also my first project with Tailwind and Axios.
 
+Deployed Website: [https://app-devfinder.netlify.app/](https://app-devfinder.netlify.app/)
+
 ### How to install
 
 Install the node_modules first
